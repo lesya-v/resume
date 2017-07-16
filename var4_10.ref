@@ -1,0 +1,326 @@
+VAR4 start
+ entry go
+ extrn CARD, PRINT, PROUT
+ extrn Opnget, Libget, Clsget
+ 
+go = <Opnget <card 'Write file_name: '>> <f1 <Libget>> <Clsget>
+
+f1 v1 = '\n\n'<one v1><f1 <Libget>>
+   e1 =
+
+f2 v1 = <one1 v1>
+   e1 =
+   
+one e1e(' ')2 = <program e1>
+one1 e1e(' ')2 = <pr0gram e1>
+
+program e1 = <PRINT <compare <errors <brack<less_sk<tree<TRUE<FALSE<not<skob<prob e1>>>>>>>>'\n'<f2 <Libget>> >>>
+pr0gram e1 = <brack<less_sk<tree<TRUE<FALSE<not<skob<prob e1>>>>>>>>
+
+*VIR
+brack (e1) = e1
+      e1 = e1
+
+prob e1' 'e2 = e1<prob e2>
+     e1 = e1
+
+skob e1')'e2 = <skob<sk e1>e2>
+     e1'('e2 = /3/
+     e1 = e1
+     
+sk R e1'('e2 = e1(e2)
+     e1 = /3/
+     
+not e1'not'(e2)e3 = e1('not'(<not e2>))<not e3>
+    e1(e2)e3 = e1(<not e2>)<not e3>
+    e1 = e1
+
+TRUE e1'TRUE'e2 = e1('TRUE')<TRUE e2>
+     e1(e2)e3 = e1(<TRUE e2>)<TRUE e3>
+     e1 = e1
+     
+FALSE e1'FALSE'e2 = e1('FALSE')<FALSE e2>
+      e1(e2)e3 = e1(<FALSE e2>)<FALSE e3>
+      e1 = e1  
+*/VIR
+*TREE
+less_sk '&&'e3('&&'e1)e2 = <less_sk '&&'e3<less_sk e1><less_sk e2>>
+        '||'e3('||'e1)e2 = <less_sk '||'e3<less_sk e1><less_sk e2>>
+     
+        (e2) = (<less_sk e2>)
+        
+        e3((e1))e2 = <less_sk e3(<less_sk e1>)e2>
+        'not'(SA) = 'not'(SA)
+        'not'('TRUE') = 'not'('TRUE')
+        'not'('FALSE') = 'not'('FALSE')
+        e3(('TRUE'))e2 = <less_sk e3('TRUE')e2>
+        e3(('FALSE'))e2 = <less_sk e3('FALSE')e2>
+        e3(SA)e2 = <less_sk e3SAe2>
+        
+        e1(e2)e3 = e1(<less_sk e2>)<less_sk e3>
+        e1 = e1      
+
+tree '&&'e1 = '&&'e1
+     '||'e1 = '||'e1
+     '->'e1 = '->'e1
+     
+     e1W2'&&'W3e4 = <tree e1('&&'<operand W2><operand W3>)e4>    
+     e1W2'||'W3e4 = <tree e1('||'<operand W2><operand W3>)e4>          
+     e1W2'->'W3e4 = <tree e1('->'<operand W2><operand W3>)e4>
+     
+     e4'&&'e3 = /1/
+     e4'||'e3 = /1/
+     e4'->'e3 = /1/
+    
+     e1SASBe4 = /2/(SASB)
+     e1(e2)(e3)e4 = /2/(e2)(e3)
+     e1SA(SBe2)e4 = /2/(SB)
+     e1(SBe2)SAe4 = /2/(SB)
+     (e1) = <tree e1>
+     e1 = e1
+     
+operand ('TRUE') = ('TRUE')
+        ('FALSE') = ('FALSE')
+        ('not'(e1)) = ('not'(<operand e1>))
+        S(L)A = SA
+        SA = /2/(SA)
+        (e1) = (<operand e1>)
+        e1 = <tree e1>
+*/TREE
+iff e1S(N)Ae2 = SAe2
+    e1(e2)e3 = <iff e2><iff e3>
+    e1 = /0/
+    
+del_ch e1S(N)Ae2 = e1<del_ch e2>
+       e1(e2)e3 = e1(<del_ch e2>)e3
+       e1 = e1
+
+errors /1/e1 = /1/<error1 e1>
+       /2/(e1)e2 = /2/<error2 e1>
+       /3/e1 = /3/<error_s e1>
+       /0/e1 = <del_ch e1>
+       e1 = <errors <iff e1>e1>
+
+compare /1/e1 = e1
+        /2/e1 = e1
+        /3/e1 = e1
+        e1'\n'e2 = <recognition_d <compare_d e1'\n'e2>e1'\n'e2>
+
+recognition_d /0/e1 = <recognition_id <compare_id e1>e1>
+              /1/e1 = <draw <label_d e1>>
+              
+recognition_id /0/e1 = <recognition_ind <compare_ind e1>e1>
+               /1/e1 = 'INDIRECTLY: '<draw <label_id e1>>     
+
+recognition_ind /0/e1 = 'NO ENTRY'
+               /1/e1'\n'e2 = <draw <label_ind e1'\n'e2>>'\nAND: '<names <label_ind e1'\n'e2>'\n'e2>'\n' 
+*               /1/e1'\n'e2 = '\nAND: '<names <label_ind e1'\n'e2>'\n'e2>
+*DIRECTLY
+compare_d e1e2e3'\n'e2 = /1/  
+          e1(e2)e3'\n'e4 = <compare_d1 <compare_d e2'\n'e4><compare_d e3'\n'e4>>
+          '&&'e1'\n&&'e2 = <compare_d e1'\n'e2>
+          '||'e1'\n||'e2 = <compare_d e1'\n'e2>
+          e1 = /0/
+*/DIRECTLY          
+compare_d1 e1/1/e2 = /1/
+           e1 = /0/
+
+*INDERECTLY
+compare_id '&&'e1'\n&&'e2 = <compare_id2 <compare_id1 e1'\n'e2>e1'\n&&'e2>
+           '||'e1'\n||'e2 = <compare_id2 <compare_id1 e1'\n'e2>e1'\n||'e2>
+           '->'e1'\n->'e2 = <compare_id2 <compare_id1 e1'\n'e2>e1'\n->'e2>
+           
+           e1(e2)e3'\n'e4 = <compare_d1 <compare_id e2'\n'e4><compare_id e3'\n'e4>>
+           e1 = /0/
+           
+compare_id2 /0/e1 = <compare_id e1>
+            /1/e1 = /1/
+            
+compare_id1 e1'\n' = /1/
+            e1v2e3'\n'e4v2e5 = <compare_id1 e1e3'\n'e4e5>
+            e1(e2)e3'\n'(e5)e6 = <compare_id11 <compare_id_copy e2'\n'e5><compare_id1 e3'\n'e5>(e2)e3'\n'(e5)e6>
+            e1 = /0/
+
+compare_id11 /0//0/e1 = /0/
+             /1/SA(e2)e3'\n'(e5)e6 = <compare_id1 e3'\n'e6>
+             /0//1/(e2)e3'\n'(e5)e6 = <compare_id1 e3(e2)'\n'(e5)e6>
+*      FOR T2T3T4\T3T2T4 - TOTAL IDENTITY (T2-T2)
+compare_id_copy '&&'e1'\n&&'e2 = <compare_id1_copy e1'\n'e2>
+                '||'e1'\n||'e2 = <compare_id1_copy e1'\n'e2>
+                '->'e1'\n->'e2 = <compare_id1_copy e1'\n'e2>
+                'not'(e1)'\nnot'(e2) = <compare_id1_copy e1'\n'e2>
+                e1 = /0/
+                
+compare_id1_copy '\n' = /1/
+                 e1v2e3'\n'e4v2e5 = <compare_id1_copy e1e3'\n'e4e5>
+                 (e2)e3'\n'(e5)e6 = <compare_id11_copy <compare_id_copy e2'\n'e5><compare_id1_copy e3'\n'e5>(e2)e3'\n'(e5)e6>
+                 e1 = /0/
+
+compare_id11_copy /0//0/e1 = /0/
+                  /1/SA(e2)e3'\n'(e5)e6 = <compare_id1_copy e3'\n'e6>
+                  /0//1/(e2)e3'\n'(e5)e6 = <compare_id1_copy e3(e2)'\n'(e5)e6>
+                  /0//0/ = /0/
+*/INDIRECTLY
+
+*NAMES
+compare_ind '&&'e1'\n&&'e2 = <monit <compare_ind2 <compare_ind1 e1'\n'e2>e1'\n&&'e2>>
+            '||'e1'\n||'e2 = <monit <compare_ind2 <compare_ind1 e1'\n'e2>e1'\n||'e2>>
+            '->'e1'\n->'e2 = <monit <compare_ind2 <compare_ind1 e1'\n'e2>e1'\n->'e2>>
+           
+            e1(e2)e3'\n'e4 = <compare_d1 <compare_ind e2'\n'e4><compare_ind e3'\n'e4>>
+            e1 = /0/
+            
+monit /0/ = /0/
+      /1/ = /1/
+      /1/(e4)e1'\n'SASBe2 = <compare_d SASBe1'\n'SASB<del_ind<replace e4/1/e2>>>
+
+replace (SASB)/1/e1 = <replace1 SASBe1>
+        (SASB)e4/1/e1 = <replace e4/1/<replace1 SASBe1>>
+        e1 = e1
+
+del_ind e1/1/e2 = e1<del_ind e2>
+        e1(e2)e3 = e1(<del_ind e2>)e3
+        e1 = e1
+
+replace1 SASBe1/1/SAe2 = e1/1/SA<replace1 SASBe2>
+         SASBe1SAe2 = e1/1/SB<replace1 SASBe2>
+         SASBe1(e2)e3 = e1(<replace1 SASBe2>)e3
+         SASBe1 = e1
+
+compare_ind2 e2/0/e1 = <compare_ind e1>
+             /1/ = /1/
+             e4/1/e1 = /1/(e4)e1          
+ 
+compare_ind1 e1'\n' = /1/
+             v1e2'\n'v1e3 = <compare_ind1 e2'\n'e3>
+             (e2)e3'\n'(e5)e6 = <compare_ind11 <compare_ind_copy e2'\n'e5>e3'\n'e6>
+             SAe1'\n'SBe2 = (SBSA)<compare_ind1 e1'\n'e2>
+             e1 = /0/
+
+compare_ind11 e2/0/e1 = /0/
+             /1/e3'\n'e6 = <compare_ind1 e3'\n'e6>
+             e1/1/e3'\n'e6 = e1<compare_ind1 e3'\n'e6>
+* TERMS
+compare_ind_copy '&&'e1'\n&&'e2 = <compare_ind1_copy e1'\n'e2>
+                 '||'e1'\n||'e2 = <compare_ind1_copy e1'\n'e2>
+                 '->'e1'\n->'e2 = <compare_ind1_copy e1'\n'e2>
+                 'not'(e1)'\nnot'(e2) = <compare_ind1_copy e1'\n'e2>
+                 e1 = /0/
+                
+compare_ind1_copy '\n' = /1/
+                 v2e3'\n'v2e5 = <compare_ind1_copy e3'\n'e5>
+                 (e2)e3'\n'(e5)e6 = <compare_ind11_copy <compare_ind_copy e2'\n'e5>e3'\n'e6>
+                 SAe1'\n'SBe2 = (SBSA)<compare_ind1_copy e1'\n'e2>
+                 e1 = /0/
+
+compare_ind11_copy e2/0/e1 = /0/
+                  /1/e3'\n'e6 = <compare_ind1_copy e3'\n'e6>
+                  e1/1/e3'\n'e6 = e1<compare_ind1_copy e3'\n'e6>            
+*/NAMES
+*LABEL
+draw '&&'W2W3 = <draw W2>'&&'<draw W3>
+     '&&'W2W3e1 = <draw W2>'&&'<draw '&&'W3e1>
+     '&&'W1 = <draw W1>
+     
+     '||'W2W3 = <draw W2>'||'<draw W3>
+     '||'W2W3e1 = <draw W2>'||'<draw '||'W3e1>
+     '||'W1 = <draw W1>
+     
+     '->'W2W3 = <draw W2>'->'<draw W3>
+     '->'W2W3e1 = <draw W2>'->'<draw '->'W3e1>
+     '->'W1 = <draw W1>
+     
+     /1/e1 = ' [ '<draw e1>' ] '
+     'TRUE' = 'TRUE'
+     'FALSE' = 'FALSE'
+     (' [ 'e1' ] ') = ' [ '<draw e1>' ] '
+     (e1) = (<draw e1>)
+     'not'(e1) = 'not'(<draw e1>)
+     e1 = e1
+     
+ident_ch /0/W2e3 = <ident_ch e3>
+         = /1/
+         e1 = 
+
+if /0/SA = SA
+   e1 = e1
+
+*TRY_DIRECT
+label_d e4/2/e1e2e3'\n'e2 = e1(' [ 'e4e2' ] ')e3
+        '&&'e1'\n&&'e2 = '&&'<label_d '&&'/2/e1'\n'e2>
+        '||'e1'\n||'e2 = '||'<label_d '||'/2/e1'\n'e2>
+        e1e2e3'\n'e2 = e1(' [ 'e2' ] ')e3  
+        e1(e2)e3'\n'e4 = e1(<label_d e2'\n'e4>)<label_d e3'\n'e4>
+
+        e1'\n'e2 = e1
+          
+*\TRY       
+*ID   
+lab_id e4(e1)(e2)/1/(e3) = /1/e4e1
+       e4(e1)(e2)(e3) = e4<lab_id1 e3'\n'e2>
+      
+lab_id1 /1/W1e3'\n'e2 = <label_id W1'\n'e2><lab_id1 e3'\n'e2>
+        /0/W1e3'\n'e2 = W1<lab_id1 e3'\n'e2>
+        '\n'e2 = 
+
+label_id '&&'W1W2'\n'e3 = <lab_id '&&'(W1W2)(e3) <ident_ch <compare_id W1'\n'e3>W1 <compare_id W2'\n'e3>W2>(<compare_id W1'\n'e3>W1 <compare_id W2'\n'e3>W2)>
+         '&&'W1W2e4'\n'e3 = <lab_id '&&'(W1W2e4)(e3) <ident_ch <compare_id W1'\n'e3>W1 <label_id1 W2e4'\n'e3>>>
+        
+         '||'W1W2'\n'e3 = <lab_id '||'(W1W2)(e3) <ident_ch <compare_id W1'\n'e3>W1 <compare_id W2'\n'e3>W2>(<compare_id W1'\n'e3>W1 <compare_id W2'\n'e3>W2)>
+         '||'W1W2e4'\n'e3 = <lab_id '||'(W1W2e4)(e3) <ident_ch <compare_id W1'\n'e3>W1 <label_id1 W2e4'\n'e3>>(<compare_id W1'\n'e3>W1 <label_id1 W2e4'\n'e3>)>
+        
+         '->'W1W2'\n'e3 = <lab_id '->'(W1W2)(e3) <ident_ch <compare_id W1'\n'e3>W1 <compare_id W2'\n'e3>W2>(<compare_id W1'\n'e3>W1 <compare_id W2'\n'e3>W2)>
+         '->'W1W2e4'\n'e3 = <lab_id '->'(W1W2e4)(e3) <ident_ch <compare_id W1'\n'e3>W1 <label_id1 W2e4'\n'e3>>(<compare_id W1'\n'e3>W1 <label_id1 W2e4'\n'e3>)>
+        
+         (e1)'\n'e3 = (<label_id e1'\n'e3>)
+         e1 = <label_id1 e1>
+         
+label_id1 W1W2'\n'e3 = <compare_id W1'\n'e3>W1 <compare_id W2'\n'e3>W2
+          W1W2e4'\n'e3 = <compare_id W1'\n'e3>W1 <label_id1 W2e4'\n'e3>
+          SA'\n'e1 = <if <compare_id SA'\n'e1>SA>
+*/ID
+*IND   
+lab_ind e4(e1)(e2)/1/(e3) = /1/e4e1
+        e4(e1)(e2)(e3) = e4<lab_ind1 e3'\n'e2>
+      
+lab_ind1 /1/W1e3'\n'e2 = <label_ind W1'\n'e2><lab_ind1 e3'\n'e2>
+         /0/W1e3'\n'e2 = W1<lab_ind1 e3'\n'e2>
+         '\n'e2 = 
+
+label_ind '&&'W1W2'\n'e3 = <lab_ind '&&'(W1W2)(e3) <ident_ch <compare_ind W1'\n'e3>W1 <compare_ind W2'\n'e3>W2>(<compare_ind W1'\n'e3>W1 <compare_ind W2'\n'e3>W2)>
+          '&&'W1W2e4'\n'e3 = <lab_ind '&&'(W1W2e4)(e3) <ident_ch <compare_ind W1'\n'e3>W1 <label_ind1 W2e4'\n'e3>>(<compare_ind W1'\n'e3>W1 <label_ind1 W2e4'\n'e3>)>
+        
+          '||'W1W2'\n'e3 = <lab_ind '||'(W1W2)(e3) <ident_ch <compare_ind W1'\n'e3>W1 <compare_ind W2'\n'e3>W2>(<compare_ind W1'\n'e3>W1 <compare_ind W2'\n'e3>W2)>
+          '||'W1W2e4'\n'e3 = <lab_ind '||'(W1W2e4)(e3) <ident_ch <compare_ind W1'\n'e3>W1 <label_ind1 W2e4'\n'e3>>(<compare_ind W1'\n'e3>W1 <label_ind1 W2e4'\n'e3>)>
+        
+          '->'W1W2'\n'e3 = <lab_ind '->'(W1W2)(e3) <ident_ch <compare_ind W1'\n'e3>W1 <compare_ind W2'\n'e3>W2>(<compare_ind W1'\n'e3>W1 <compare_ind W2'\n'e3>W2)>
+          '->'W1W2e4'\n'e3 = <lab_ind '->'(W1W2e4)(e3) <ident_ch <compare_ind W1'\n'e3>W1 <label_ind1 W2e4'\n'e3>>(<compare_ind W1'\n'e3>W1 <label_ind1 W2e4'\n'e3>)>
+        
+          (e1)'\n'e3 = (<label_ind e1'\n'e3>)
+          e1 = <label_ind1 e1>
+         
+label_ind1 W1W2'\n'e3 = <compare_ind W1'\n'e3>W1 <compare_ind W2'\n'e3>W2
+           W1W2e4'\n'e3 = <compare_ind W1'\n'e3>W1 <label_ind1 W2e4'\n'e3>
+           SA'\n'e1 = <if <compare_ind SA'\n'e1>SA>
+*/IND
+*RENAMING
+names2 (SASB)v1 = SA'<->'SB'; '<names2 v1>
+       (SASB) = SA'<->'SB
+
+names e1 = <names2 <names1<names3 e1>>>
+
+names3 e3/1/e1'\n'e2 = e1'\n'e2
+       e1(e2)e3'\n'e4 = <names3 e2'\n'e4><names3 e3'\n'e4>
+       e1 = 
+
+names1 SAe1'\n'SAe2 = <names1 e1'\n'e2>
+       SAe1'\n'SBe2 = (SBSA)<names1 e1'\n'e2>
+       (e1)e2'\n'(e3)e4 = <names1 e1'\n'e3><names1 e2'\n'e4>
+       e1'\n'=
+*/RENAMING
+*/LABEL
+error1 e1 = 'Syntax error! Logical operation must have two arguments!\n'   
+error2 e1 = 'Syntax error! Operand 'e1' must be a letter!\n' 
+error_s e1 = 'Syntax error! Correct the brackets!\n'   
+
+	end
